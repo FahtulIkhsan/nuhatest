@@ -33,6 +33,8 @@ const switchRole = async (req, res) => {
     }
 
     const permissions = await roleModel.getPermissionsForRole(targetRole);
+    delete req.user.iat;
+    delete req.user.exp;
     const newToken = jwt.sign(
         { ...req.user, activeRole: targetRole },
         process.env.JWT_SECRET, { expiresIn: '2h' }
